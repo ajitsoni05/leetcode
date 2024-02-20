@@ -1,1 +1,1 @@
-​
+This is fairly a simple problem. We need to equate all the nodes via traversing both the trees.Isnt it
