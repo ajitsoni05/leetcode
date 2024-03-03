@@ -26,8 +26,7 @@ public:
         int maxi=root->val;
         if(!root->left&&!root->right)return root->val;
         maxPath(root,maxi);
-        maxPath(root->left,maxi);
-        maxPath(root->right,maxi);
+      
         return maxi;
     }
 };
