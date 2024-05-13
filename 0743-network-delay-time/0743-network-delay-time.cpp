@@ -1,41 +1,39 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        // Constructing the graph
-        vector<vector<pair<int, int>>> graph(n + 1);
-        for (const auto& time : times) {
-            int from = time[0], to = time[1], weight = time[2];
-            graph[from].emplace_back(to, weight);
+        
+        // make graph
+        unordered_map<int,vector<pair<int,int>>>g;
+        // visited set
+        set<int>visited;
+        
+        // constructing graph
+        for(int i=0;i<times.size();i++){
+            g[times[i][0]].push_back({times[i][1],times[i][2]});
         }
         
-        // Initialize distances
-        vector<int> dist(n + 1, INT_MAX);
-        dist[k] = 0;
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+        pq.push({0,k});
         
-        // Priority queue for Dijkstra's algorithm
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.push({0, k});
+        int t=0;
         
-        while (!pq.empty()) {
-            auto [d, node] = pq.top();
+        while(!pq.empty()){
+            
+            pair<int,int>p=pq.top();
             pq.pop();
             
-            if (d > dist[node]) continue; // Skip outdated nodes
+            if(visited.find(p.second)!=visited.end())continue;
+            visited.insert(p.second);
+             
+            t=max(t,p.first);
             
-            for (const auto& edge : graph[node]) {
-                int neighbor = edge.first;
-                int neighborDist = edge.second + d;
-                
-                if (neighborDist < dist[neighbor]) {
-                    dist[neighbor] = neighborDist;
-                    pq.push({neighborDist, neighbor});
+            for(auto nb: g[p.second]){
+                if(visited.find(nb.first)==visited.end()){
+                    pq.push({nb.second+p.first,nb.first});
                 }
             }
         }
-        
-        // Find the maximum distance
-        int maxDist = *max_element(dist.begin() + 1, dist.end());
-        
-        return maxDist == INT_MAX ? -1 : maxDist;
+
+        return visited.size()==n?t:-1;
     }
 };
