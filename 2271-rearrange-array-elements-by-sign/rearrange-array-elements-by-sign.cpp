@@ -19,7 +19,7 @@ public:
             }
         }
 
-        if(n==0){
+       
             reverse(neg.begin(),neg.end());
             reverse(pos.begin(),pos.end());
 
@@ -35,23 +35,8 @@ public:
                     neg.pop_back();
                 }
             }
-        }else{
-        reverse(neg.begin(),neg.end());
-        reverse(pos.begin(),pos.end());
-
-            while(neg.size() || pos.size()){
-               
-
-                if(pos.size()){
-                    ans.push_back(pos.back());
-                    pos.pop_back();
-                }
-                 if(neg.size()){
-                    ans.push_back(neg.back());
-                    neg.pop_back();
-                }
-            }
-        }
+  
+    
         return ans;
         
     }
