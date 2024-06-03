@@ -1,11 +1,15 @@
 class Solution {
 public:
-    static bool comp(int a, int b){
-        return a%2<b%2;
-    }
     vector<int> sortArrayByParity(vector<int>& nums) {
-        
-        sort(nums.begin(),nums.end(),comp);
+        int l=0,r=0;
+        while(r!=nums.size()){
+            if(nums[r]%2){
+                r++;
+            }else{
+                swap(nums[l],nums[r]);
+                l++,r++;
+            }
+        }
         return nums;
     }
 };
