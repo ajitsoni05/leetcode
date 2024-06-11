@@ -13,7 +13,7 @@ class DST{
 
    int findUP(int n) {
         if (parent[n] != n) {
-            parent[n] = findUP(parent[n]); // Correct path compression
+            parent[n] = findUP(parent[parent[n]]); // Correct path compression
         }
         return parent[n];
     }
@@ -55,15 +55,15 @@ public:
                 }
             }
         }
-         unordered_set<int> uniqueIslands;
-        int count=0;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-              if (grid[i][j] == '1') {
+        unordered_set<int> uniqueIslands;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
                     uniqueIslands.insert(ds.findUP(i * n + j));
-                }   
+                }
             }
         }
+        
         return uniqueIslands.size();
     }
     /*
