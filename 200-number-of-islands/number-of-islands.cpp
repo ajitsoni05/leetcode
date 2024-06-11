@@ -55,16 +55,18 @@ public:
                 }
             }
         }
-        unordered_set<int> uniqueIslands;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1') {
-                    uniqueIslands.insert(ds.findUP(i * n + j));
-                }
+        map<int,int>mp;
+        int count=0;
+        for(int i=0;i<ds.parent.size();i++){
+            int k=i%n;
+            int h=i/n;
+            if(grid[h][k]=='1'){
+                mp[ds.findUP(i)]++;
+                cout<<ds.findUP(i)<<endl;
             }
+
         }
-        
-        return uniqueIslands.size();
+        return mp.size();
     }
     /*
         10111
