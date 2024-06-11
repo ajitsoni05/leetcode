@@ -1,24 +1,23 @@
-class DST {
-public:
-    vector<int> size;
-    vector<int> parent;
+class DST{
+    public:
+    vector<int>size;
+    vector<int>parent;
 
-    DST(int m, int n) {
-        size.resize(m * n, 1);
-        parent.resize(m * n);
-        for (int i = 0; i < parent.size(); i++) {
-            parent[i] = i;
+    DST(int m,int n){
+        size.resize(m*n,1);
+        parent.resize(m*n);
+        for(int i=0;i<parent.size();i++){
+            parent[i]=i;
         }
     }
 
-    int findUP(int n) {
+   int findUP(int n) {
         if (parent[n] != n) {
             parent[n] = findUP(parent[n]); // Correct path compression
         }
         return parent[n];
     }
-
-    void Union(int a, int b) {
+      void Union(int a, int b) {
         int pa = findUP(a);
         int pb = findUP(b);
         if (pa != pb) { // Only unite if they are in different sets
@@ -30,40 +29,46 @@ public:
                 size[pb] += size[pa];
             }
         }
+    
     }
 };
-
 class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
-        int m = grid.size();
-        if (m == 0) return 0;
-        int n = grid[0].size();
-        
-        DST ds(m, n);
-        
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1') {
-                    if (i + 1 < m && grid[i + 1][j] == '1') {
-                        ds.Union(i * n + j, (i + 1) * n + j);
-                    }
-                    if (j + 1 < n && grid[i][j + 1] == '1') {
-                        ds.Union(i * n + j, i * n + j + 1);
-                    }
+        // Lets try union find
+        int m=grid.size();
+        int n=grid[0].size();
+        DST ds(m,n);
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i+1<m and j<n and grid[i][j]=='1' and grid[i+1][j]=='1'){
+                    ds.Union(i*n+j,(i+1)*n+j);
+                }
+                if(i<m and j+1<n and grid[i][j]=='1' and grid[i][j+1]=='1'){
+                     ds.Union(i*n+j,(i)*n+j+1);
+                }
+                if(i-1>=0 and grid[i][j]=='1' and grid[i-1][j]=='1'){
+                     ds.Union(i*n+j,(i-1)*n+j);
+                }
+                if(j-1>=0 and grid[i][j]=='1' and grid[i][j-1]=='1'){
+                    ds.Union(i*n+j,(i)*n+j-1);
                 }
             }
         }
-        
-        unordered_set<int> uniqueIslands;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1') {
+         unordered_set<int> uniqueIslands;
+        int count=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+              if (grid[i][j] == '1') {
                     uniqueIslands.insert(ds.findUP(i * n + j));
-                }
+                }   
             }
         }
-        
         return uniqueIslands.size();
     }
+    /*
+        10111
+        10101
+        11101
+    */
 };
