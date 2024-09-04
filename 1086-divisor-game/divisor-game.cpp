@@ -32,6 +32,7 @@ public:
                 if(n%i==0){
                     
                     if(help(n-i)==0)return dp[n]=1;
+                    if(i!=1 and help(n-(n/i))==0)return dp[n]=1;
                 }
             }
             return dp[n]=0;
