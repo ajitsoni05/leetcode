@@ -8,9 +8,7 @@ public:
             mp[arr[i]]++;
         }
 
-        // 1->3,
-        // 2->2,
-        // 3->1
+      
 
 
         for(auto it:mp){
