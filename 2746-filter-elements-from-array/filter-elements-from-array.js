@@ -5,6 +5,10 @@
  */
 var filter = function(arr, fn) {
     
+    // declarative programming
+    return arr.filter(fn);
+
+    // imperative programming
     let filteredAr = []
 
     for(let i=0;i<arr.length;i++){
