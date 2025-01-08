@@ -6,5 +6,6 @@
  */
 var reduce = function(nums, fn, init) {
     
+    // imperative way
     return nums.reduce(fn,init)
 };
