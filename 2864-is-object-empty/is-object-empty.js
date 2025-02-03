@@ -3,5 +3,6 @@
  * @return {boolean}
  */
 var isEmpty = function(obj) {
-   return _.isEmpty(obj);
+  
+   return !( obj.length || Object.keys(obj).length);
 };
