@@ -24,9 +24,6 @@ var createInfiniteObject = function() {
    let proxyObj = new Proxy(target,{
 
     get(target,prop,reciever){
-        target = {
-            prop: prop,
-        }
         return function(){
             return prop;
         };
