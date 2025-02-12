@@ -3,19 +3,23 @@
  * @param {number} t
  * @return {Function}
  */
-var timeLimit = function (fn, t) {
+var timeLimit = function(fn, t) {
+    
+    return async function(...args) {
+        // Promise race method
 
-    return async function (...args) {
-        return new Promise((resolve, reject) => {
-            const timeOutId = setTimeout(() => {
-                reject("Time Limit Exceeded");
-            }, t);
-
-            fn(...args)
-                .then(resolve)
-                .catch(reject)
-                .finally(() => clearTimeout(timeOutId))
+        // Time limit Promise
+        const timeLimitPromise = new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                reject("Time Limit Exceeded")
+            },t);
         })
+
+        // fn Promise
+        const fnPromise = fn(...args)
+
+        // race the two promises
+        return Promise.race([timeLimitPromise,fnPromise])
     }
 };
 
