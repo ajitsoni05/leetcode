@@ -10,10 +10,7 @@ public:
         string temp1=temp;
         int cnt=0;
         bool exceed=false;
-        // i = 3 , 101
         for(int j=0;j<=n;j++){
-            // 3 
-            // 0 , 1 , 2,3 
             if(cnt==2)exceed=true;
             if((1<<j)&i){temp1[j]='1';cnt=0;}
             else{cnt++;}
