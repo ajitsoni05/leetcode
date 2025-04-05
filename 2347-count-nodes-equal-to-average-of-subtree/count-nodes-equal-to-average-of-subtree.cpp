@@ -31,8 +31,7 @@ public:
         int avg = sumOfNodes/numOfNodes;
         cout<<root->val<<" "<<avg<<endl;
         // return countNodes(root,avg);
-        int ans = root->val == avg;
-        return  ans + averageOfSubtree(root->left) + averageOfSubtree(root->right);
+        return (root->val == avg) + averageOfSubtree(root->left) + averageOfSubtree(root->right);
          
     }   
 };                                       
