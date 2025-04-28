@@ -37,7 +37,7 @@ public:
         cout << low << " " << high << tot << endl;
         double halfArea = (tot / 2.0);
 
-        while (high-low >1e-6) {
+        while (high-low >1e-5) {
             double mid = (low + high + 0.0) / 2.0;
             double currentArea = areaOfSquares(squares, mid);
             if (currentArea < halfArea) {
