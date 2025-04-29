@@ -13,7 +13,7 @@ public:
         long long ans = 0;
         while(right<n){
             if(nums[right]==maxm)count++;
-            while(count>=k){
+            while(count==k){
                 count -= nums[left]==maxm ? 1:0;
                 left++;
             }
