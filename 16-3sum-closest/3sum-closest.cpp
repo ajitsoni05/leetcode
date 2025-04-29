@@ -14,7 +14,6 @@ public:
                 int currSum = nums[i]+nums[lo]+nums[hi];
                 int currDiff = abs(target-currSum);
                 if(currDiff < diff){
-                cout<<currDiff<<" "<<diff<<" "<<currSum<<" "<<sum<<endl;
 
                     diff = currDiff;
                     sum = currSum;
