@@ -19,8 +19,8 @@ public:
         unordered_map<int, vector<int>> adj;
 
         for (int i = 0; i < prerequisites.size(); i++) {
-            int from = prerequisites[i][0];
-            int to = prerequisites[i][1];
+            int to = prerequisites[i][0];
+            int from = prerequisites[i][1];
 
             indegree[to]++;
 
