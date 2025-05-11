@@ -17,6 +17,7 @@ public:
 
         // make an adjaceny list first
         unordered_map<int, vector<int>> adj;
+        adj.reserve(numCourses);
 
         for (int i = 0; i < prerequisites.size(); i++) {
             int to = prerequisites[i][0];
