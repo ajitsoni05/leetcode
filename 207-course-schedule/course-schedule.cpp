@@ -21,12 +21,12 @@ public:
     unordered_map<int,vector<int>>adj;
 
      for(int i=0;i<prerequisites.size();i++){
-        int cToTake = prerequisites[i][1];
-        
-        indegree[cToTake]++;
-
         int from =prerequisites[i][0];
         int to = prerequisites[i][1];
+
+        
+        indegree[to]++;
+
 
         adj[from].push_back(to);
 
