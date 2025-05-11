@@ -1,13 +1,14 @@
 class Solution {
 public:
 
-    void dfs(unordered_map<int,vector<int>>&adj,vector<bool>&vis,int node){
+    void dfs(unordered_map<int,vector<int>>&adj,vector<bool>&vis,int& count,int node){
         vis[node]=true;
+        count+=1;
 
 
         for(auto neighbour: adj[node]){
             if(!vis[neighbour]){
-                dfs(adj,vis,neighbour);
+                dfs(adj,vis,count,neighbour);
             }
         }
     }
@@ -47,11 +48,7 @@ public:
        for(int i=0;i<n;i++){
         vector<bool>vis(n,false);
         int count = 0;
-        dfs(adj,vis,i);
-        for(int i=0;i<vis.size();i++){
-            if(vis[i])count++;
-        }
-
+        dfs(adj,vis,count,i);
 
         maxCount = max(maxCount,count);
        }
