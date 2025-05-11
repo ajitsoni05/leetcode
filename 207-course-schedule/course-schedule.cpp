@@ -1,60 +1,35 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        /*
-
-           0 to numCourses - 1
-
-           prerequisites [ai, bi]
-
-
-        */
-
-        // order
-        vector<int> order;
-        // indegree
+        vector<vector<int>> adj(numCourses);
         vector<int> indegree(numCourses, 0);
 
-        // make an adjaceny list first
-        unordered_map<int, vector<int>> adj;
-        adj.reserve(numCourses);
-
-        for (int i = 0; i < prerequisites.size(); i++) {
-            int to = prerequisites[i][0];
-            int from = prerequisites[i][1];
-
-            indegree[to]++;
-
+        for (auto& p : prerequisites) {
+            int from = p[1]; // b
+            int to = p[0];   // a
             adj[from].push_back(to);
+            indegree[to]++;
         }
 
-        // put courses with indegree 0 into queue
-        queue<int> nodes;
-
-        for (int i = 0; i < numCourses; i++) {
-            if (indegree[i] == 0) {
-                nodes.push(i);
-            }
+        queue<int> q;
+        for (int i = 0; i < numCourses; ++i) {
+            if (indegree[i] == 0)
+                q.push(i);
         }
 
-        while (!nodes.empty()) {
-            // take out the node
+        int count = 0;
+        while (!q.empty()) {
+            int curr = q.front();
+            q.pop();
+            count++;
 
-            int node = nodes.front();
-            nodes.pop();
-
-            for (auto nb : adj[node]) {
-                indegree[nb]--;
-                if (!indegree[nb]) {
-                    nodes.push(nb);
+            for (int neighbor : adj[curr]) {
+                if (--indegree[neighbor] == 0) {
+                    q.push(neighbor);
                 }
             }
-            order.push_back(node);
         }
 
-        if (order.size() == numCourses)
-            return true;
-        else
-            return false;
+        return count == numCourses;
     }
 };
