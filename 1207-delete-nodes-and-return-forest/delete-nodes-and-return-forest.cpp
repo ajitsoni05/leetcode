@@ -15,7 +15,7 @@ public:
     unordered_map<int, int> nodesToDelete;
 
     TreeNode* dfs(TreeNode* root) {
-        if (!root) return nullptr;
+        if (!root) return NULL;
 
         root->left = dfs(root->left);
         root->right = dfs(root->right);
@@ -27,7 +27,7 @@ public:
             if (root->right && !nodesToDelete.count(root->right->val)) {
                 saveNodes.push_back(root->right);
             }
-            return nullptr;  // delete this node
+            return NULL;  // delete this node
         }
 
         return root;  // keep this node
