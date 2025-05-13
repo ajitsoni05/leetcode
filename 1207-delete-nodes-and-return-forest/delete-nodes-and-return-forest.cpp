@@ -14,11 +14,11 @@ public:
     vector<TreeNode*> saveNodes;
     unordered_map<int, int> nodesToDelete;
 
-    TreeNode* dfs(TreeNode* root) {
-        if (!root) return NULL;
+    void dfs(TreeNode* &root) {
+        if (!root) return;
 
-        root->left = dfs(root->left);
-        root->right = dfs(root->right);
+        dfs(root->left);
+        dfs(root->right);
 
         if (nodesToDelete.count(root->val)) {
             if (root->left && !nodesToDelete.count(root->left->val)) {
@@ -27,10 +27,11 @@ public:
             if (root->right && !nodesToDelete.count(root->right->val)) {
                 saveNodes.push_back(root->right);
             }
-            return NULL;  // delete this node
+            delete root;
+            root= NULL;  // delete this node
         }
 
-        return root;  // keep this node
+        
     }
 
     vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
