@@ -13,24 +13,24 @@ public:
         K = k;
     }
     
-    void addElement(int num) {
-        if(q.size()<M){
-            q.push(num);
-            mp[num]++;
-            rmp[num]++;
-            tot+= num;
-        }else{
-            int r = q.front();
-            tot-=r;
-            q.pop();
-            mp[r]--;
-            rmp[r]--;
-            q.push(num);
-            mp[num]++;
-            rmp[num]++;
-            tot+=num;
-        }
+   void addElement(int num) {
+    q.push(num);
+    mp[num]++;
+    rmp[num]++;
+    tot += num;
+
+    if (q.size() > M) {
+        int r = q.front(); q.pop();
+        mp[r]--;
+        if (mp[r] == 0) mp.erase(r);
+
+        rmp[r]--;
+        if (rmp[r] == 0) rmp.erase(r);
+
+        tot -= r;
     }
+}
+
     
     int calculateMKAverage() {
         // subtract from tot
