@@ -1,37 +1,49 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-
-using namespace std;
-
 class Solution {
 public:
-    int maximumInvitations(vector<vector<int>>& grid) {
-        int M = grid.size();
-        int N = grid[0].size();
-        unordered_map<int, int> matches; // key = girl, value = boy
 
-        // DFS function to try to match a boy with a girl
-        function<bool(int, unordered_set<int>&)> dfs = [&](int boy, unordered_set<int>& visited) {
-            for (int girl = 0; girl < N; ++girl) {
-                if (grid[boy][girl] && visited.find(girl) == visited.end()) {
-                    visited.insert(girl);
+    bool dfs(vector<vector<int>>& grid,vector<bool>&visitedGirls,int boy,int& numGirls,vector<int>&matchTo){
+        
+        for(int girl = 0; girl < numGirls; girl++){
 
-                    if (matches.find(girl) == matches.end() || dfs(matches[girl], visited)) {
-                        matches[girl] = boy;
-                        return true;
-                    }
+            if(grid[boy][girl] and !visitedGirls[girl]){
+                visitedGirls[girl] = true;
+                if(matchTo[girl] == -1 || dfs(grid,visitedGirls,matchTo[girl],numGirls,matchTo)){
+                    matchTo[girl] = boy;
+
+                    return true;
                 }
             }
-            return false;
-        };
+            
+        }
+        return false;
+    }
+    int maximumInvitations(vector<vector<int>>& grid) {
+        // dfs | hungarian algo
 
-        for (int boy = 0; boy < M; ++boy) {
-            unordered_set<int> visited;
-            dfs(boy, visited);
+        if(grid.size() == 0) return 0;
+
+        int numBoys = grid.size();
+        int numGirls = grid[0].size();
+
+        // matchTo array 
+        vector<int>matchTo(numGirls,-1);
+
+
+        // dfs call
+        int start = 0;
+
+        // result of max match
+        int result = 0;
+
+        for(int i = start; i<numBoys;i++){
+            // 
+            vector<bool>visitedGirl(numGirls,false);
+
+            if(dfs(grid,visitedGirl,i,numGirls,matchTo))result++;
         }
 
-        return matches.size();
+        return result;
+
+
     }
 };
