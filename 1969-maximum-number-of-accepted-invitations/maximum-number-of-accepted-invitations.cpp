@@ -1,33 +1,37 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+
+using namespace std;
+
 class Solution {
 public:
-    bool dfs(int boy, vector<vector<int>>& grid, vector<bool>& visited, vector<int>& matchTo) {
-        int n = grid[0].size(); // number of girls
-        for (int girl = 0; girl < n; ++girl) {
-            if (grid[boy][girl] == 1 && !visited[girl]) {
-                visited[girl] = true;
-                if (matchTo[girl] == -1 || dfs(matchTo[girl], grid, visited, matchTo)) {
-                    matchTo[girl] = boy;
-                    return true;
+    int maximumInvitations(vector<vector<int>>& grid) {
+        int M = grid.size();
+        int N = grid[0].size();
+        unordered_map<int, int> matches; // key = girl, value = boy
+
+        // DFS function to try to match a boy with a girl
+        function<bool(int, unordered_set<int>&)> dfs = [&](int boy, unordered_set<int>& visited) {
+            for (int girl = 0; girl < N; ++girl) {
+                if (grid[boy][girl] && visited.find(girl) == visited.end()) {
+                    visited.insert(girl);
+
+                    if (matches.find(girl) == matches.end() || dfs(matches[girl], visited)) {
+                        matches[girl] = boy;
+                        return true;
+                    }
                 }
             }
-        }
-        return false;
-    }
+            return false;
+        };
 
-    int maximumInvitations(vector<vector<int>>& grid) {
-        int m = grid.size();    // number of boys
-        int n = grid[0].size(); // number of girls
-
-        vector<int> matchTo(n, -1); // matchTo[j] = i means girl j is matched to boy i
-        int result = 0;
-
-        for (int boy = 0; boy < m; ++boy) {
-            vector<bool> visited(n, false);
-            if (dfs(boy, grid, visited, matchTo)) {
-                ++result;
-            }
+        for (int boy = 0; boy < M; ++boy) {
+            unordered_set<int> visited;
+            dfs(boy, visited);
         }
 
-        return result;
+        return matches.size();
     }
 };
