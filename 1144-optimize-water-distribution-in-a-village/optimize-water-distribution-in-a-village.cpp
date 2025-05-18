@@ -1,55 +1,100 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <unordered_set>
-using namespace std;
-
 class Solution {
 public:
     int minCostToSupplyWater(int n, vector<int>& wells, vector<vector<int>>& pipes) {
-        // Min heap: pair<cost, house>
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> edgesHeap;
+        /*
+        
+            wells[i-1] ith house 
+            
+            pipej = h1j,h2j,cj
 
-        // Graph represented as an adjacency list: graph[u] = list of {cost, v}
-        vector<vector<pair<int, int>>> graph(n + 1);
+            0th node (imaginary node)
+        
+        
+        */
 
-        // Add virtual edges from node 0 to all houses with well costs
-        for (int i = 0; i < wells.size(); ++i) {
-            graph[0].emplace_back(wells[i], i + 1);
-            edgesHeap.emplace(wells[i], i + 1);
+        vector<vector<pair<int,int>>>adj(n+1);
+
+        int numPipes = pipes.size();
+        
+
+        // connections
+
+        for(int i = 0; i< numPipes; i++){
+          
+            // connect both ways
+            int h1 = pipes[i][0];
+            int h2 = pipes[i][1];
+            int cost = pipes[i][2];
+
+            adj[h1].push_back({h2,cost});
+
+            adj[h2].push_back({h1,cost});
         }
 
-        // Add bidirectional edges from the pipes
-        for (const auto& pipe : pipes) {
-            int house1 = pipe[0], house2 = pipe[1], cost = pipe[2];
-            graph[house1].emplace_back(cost, house2);
-            graph[house2].emplace_back(cost, house1);
+        // min heap
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>minHeap;
+
+        // push the imaginary edges into min heap
+        int numWells = wells.size();
+
+        for(int i = 0; i < numWells; i++){
+            
+            int wellCost = wells[i];
+            int node = i+1;
+            minHeap.push({wellCost,node});
+
+            // also add to graph
+            adj[0].push_back({node,wellCost});
+            adj[i+1].push_back({0,wellCost});
         }
 
-        // Prim's algorithm
-        unordered_set<int> mstSet;
+        // mstSet
+        set<int>mstSet;
+
+        // source visited
         mstSet.insert(0);
 
+
+        // add to cost
         int totalCost = 0;
 
-        while (mstSet.size() < n + 1) {
-            auto [cost, nextHouse] = edgesHeap.top();
-            edgesHeap.pop();
+        while(minHeap.size() != 0){
 
-            if (mstSet.count(nextHouse)) {
-                continue;
-            }
+            // get the top
+            pair<int,int> p = minHeap.top();
 
-            mstSet.insert(nextHouse);
+            // first is cost 
+            int cost = p.first;
+
+            // second is node
+            int node = p.second;
+
+            // pop
+            minHeap.pop();
+
+            // check if node is there in the set
+            if(mstSet.count(node))continue; 
+
+            // add to cost
             totalCost += cost;
 
-            for (const auto& [nextCost, neighbor] : graph[nextHouse]) {
-                if (!mstSet.count(neighbor)) {
-                    edgesHeap.emplace(nextCost, neighbor);
-                }
+            // insert into set
+            mstSet.insert(node);
+
+            if(adj[node].size() == 0) continue;
+            // check neighbours 
+            for(auto neigh:adj[node]){
+
+                int neighNode = neigh.first;
+                int neighCost = neigh.second;
+
+                minHeap.push({neighCost,neighNode});
             }
+
         }
 
         return totalCost;
+
+
     }
 };
