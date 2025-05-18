@@ -58,7 +58,7 @@ public:
         // add to cost
         int totalCost = 0;
 
-        while(minHeap.size() != 0){
+        while(minHeap.size() != 0 and mstSet.size() <= n){
 
             // get the top
             pair<int,int> p = minHeap.top();
