@@ -19,7 +19,6 @@ public:
                 netString += ele+',';
             }
 
-            cout<<netString<<endl;
             
             if(map.count(netString)){
                 pairs += map[netString];
