@@ -1,40 +1,86 @@
 class Solution {
 public:
     double frogPosition(int n, vector<vector<int>>& edges, int t, int target) {
-        vector<vector<int>> graph(n+1);
-        for(auto e : edges){
-            graph[e[0]].push_back(e[1]);
-            graph[e[1]].push_back(e[0]);
+        
+        // prob array
+
+        // visited array
+
+        // bfs traversal so adj list
+
+        // adj list
+        vector<vector<int>>adj(n);
+
+        // fill the adj
+        for(int i = 0; i < edges.size(); i++){
+            // node 1
+            int node1 = edges[i][0]-1;
+
+            int node2 = edges[i][1]-1;
+
+            adj[node1].push_back(node2);
+            adj[node2].push_back(node1);
         }
-        vector<double> prob(n+1 , 0);
-        queue<int> q;
-        q.push(1);
-        vector<bool> visited(n+1, 0);
-        visited[1] = 1;
-        prob[1] = 1.0;
-        while(!q.empty() && t--) {
-            int size = q.size();
-            for(int i=0;i<size;i++){
-                int node = q.front();
-                q.pop();
-                int edge_count = 0; //count of unvisited nodes from the current node. 
-                for(auto v : graph[node]){
-                    if(!visited[v]) 
-                        edge_count++;
-                }
-                for(auto v : graph[node]) {
-                    if(!visited[v]) {
-                        q.push(v);
-                        visited[v] = true;        
-                        prob[v] =  prob[node] / edge_count;                        
-                    }
-                } 
-				//the only tricky part
-                //A frog cannot stay at a fixed postion until there's no more vertex to jump
-                if(edge_count>0)
-                    prob[node] = 0;
+
+        // visitedSet
+        unordered_set<int>visitedSet;
+
+        // queue for bfs level order
+        queue<int>q;
+
+        // source node
+        int source = 0;
+
+        // prob array
+        vector<double>prob(n,0);
+
+        prob[source] = 1.0;
+
+        // push node into q
+        q.push(source);
+
+        int level = 0;
+
+        while(!q.empty() and level < t){
+            int q_size = q.size();
+            for(int i = 0;i<q_size;i++){
+            // get the node
+            int node = q.front();
+            
+            //pop
+            q.pop();
+
+            visitedSet.insert(node);
+
+            // set the prob of unvisited nodes 
+
+            // get the count
+
+            int node_count = 0;
+
+            for(auto neigh:adj[node]){
+                if(!visitedSet.count(neigh))node_count++;
             }
+            
+            // set prob of each unvis node
+             for(auto neigh:adj[node]){
+                if(!visitedSet.count(neigh)){
+                    prob[neigh] = prob[node]/node_count;
+                    q.push(neigh);
+                }
+            }
+
+            if(node_count > 0 ){
+                prob[node] = 0;
+            }
+
+            }
+            level++;
+
+            // set the prob of node to zero
+        
         }
-        return prob[target];
+
+        return prob[target-1];
     }
 };
