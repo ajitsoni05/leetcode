@@ -2,7 +2,8 @@ class Solution {
 public:
 
     long long runDijikstra(int n, vector<vector<int>>& edges, int source, int destination){
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>minHeap;
+        // priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>minHeap;
+        set<pair<int,int>>s;
         vector<vector<pair<int,int>>>adj(n);
 
         int edgesCount = edges.size();
@@ -26,12 +27,12 @@ public:
 
         distance[source] = 0;
 
-        minHeap.push({distance[source],source});
+        s.insert({distance[source],source});
 
-        while(!minHeap.empty()){
+        while(!s.empty()){
 
-            auto ele = minHeap.top();
-            minHeap.pop();
+            auto ele = *(s.begin());
+            s.erase(ele);
 
             int node = ele.second;
             int weight = ele.first;
@@ -45,9 +46,18 @@ public:
 
                 if( curr < distance[nghNode]){
 
+                    auto it = s.find({distance[nghNode],nghNode});
+
+                    if(it != s.end()){
+                        s.erase(it);
+                        s.insert({curr,nghNode});
+                    }else{
+                        s.insert({curr,nghNode});
+
+                    }
+
                     distance[nghNode] = curr;
                     
-                    minHeap.push({curr,nghNode});
                 }
             }
         }
