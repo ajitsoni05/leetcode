@@ -14,7 +14,7 @@ public:
         for(int num:changed){
             if(freq[num]){
                 freq[num]--;
-                if(freq[2*num]>0){
+                if(freq[2*num]){
                     freq[2*num]--;
 
                     ans.push_back(num);
