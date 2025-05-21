@@ -17,7 +17,7 @@ public:
             long long pos = ele.first;
             long long delta = ele.second;
 
-            if (prev != -1 && current != 0) {
+            if (current != 0) {
                 // Add interval only if there's a non-zero color
                 ans.push_back({prev, pos, current});
             }
