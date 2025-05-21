@@ -11,14 +11,24 @@ public:
 
         vector<vector<long long>> ans;
         long long current = 0;
-        long long prev = -1;
 
         for (auto& [pos, delta] : Map) {
-            if (current != 0) {
-                ans.push_back({prev, pos, current});
+            if (!ans.empty() && current != 0) {
+                // Set the end of the last segment
+                ans.back()[1] = pos;
             }
+
             current += delta;
-            prev = pos;
+
+            if (current != 0) {
+                // Start a new interval with end = -1 as placeholder
+                ans.push_back({pos, -1, current});
+            }
+        }
+
+        // Remove the last segment if it still has end == -1
+        if (!ans.empty() && ans.back()[1] == -1) {
+            ans.pop_back();
         }
 
         return ans;
