@@ -33,7 +33,8 @@ public:
 
         */
 
-        unordered_map<int,int>freq;
+        if(changed.size()%2) return {};
+
 
         // maxNum
         int maxNum = -1;
@@ -41,8 +42,12 @@ public:
         vector<int>ans;
 
         for(auto num:changed){
-            freq[num]++;
             maxNum = max(maxNum,num);
+        }
+        vector<int>freq(2*maxNum+1,0);
+        
+        for(auto num:changed){
+          freq[num]++;
         }
 
         for(int i = 0; i <= maxNum; i++){
