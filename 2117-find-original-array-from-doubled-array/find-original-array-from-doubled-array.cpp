@@ -1,28 +1,67 @@
 class Solution {
 public:
     vector<int> findOriginalArray(vector<int>& changed) {
+        /*
+        
+            counting sort
+
+            freq array to store the number
+
+            iterate 0 to max
+
+            for each num -> 2*num (once)
+
+            Algo:
+                if size of chaanged is odd: return {}
+
+                maxEle = max(changed)
+
+                freq[2*maxNum+1] = {...0}
+
+                from 0 to maxNum
+
+                    for each num:
+                        check if count(num) in freq > 0 
+                            count(num)--
+                            
+                            check if count(2*num) > 0
+                                count(2*num)--
+
+                                add num to ans
+                                 
+                            num--
+
+        */
+
         unordered_map<int,int>freq;
 
-        for(auto it:changed){
-            freq[it]++;
-        }
+        // maxNum
+        int maxNum = -1;
 
         vector<int>ans;
 
-        sort(changed.begin(),changed.end());
+        for(auto num:changed){
+            freq[num]++;
+            maxNum = max(maxNum,num);
+        }
 
-        for(int num:changed){
-            if(freq[num]){
-                freq[num]--;
-                if(freq[2*num]){
-                    freq[2*num]--;
+        for(int i = 0; i <= maxNum; i++){
 
-                    ans.push_back(num);
+            if(freq[i]){
+                freq[i]--;
+
+                if(freq[2*i]){
+                    freq[2*i]--;
+                    ans.push_back(i);
                 }else{
                     return {};
                 }
+                i--;
             }
         }
+
         return ans;
+
+
     }
 };
