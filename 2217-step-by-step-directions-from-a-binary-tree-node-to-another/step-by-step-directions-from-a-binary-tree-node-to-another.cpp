@@ -11,145 +11,86 @@
  */
 class Solution {
 public:
-    TreeNode* findStartNode(TreeNode*root,int startValue){
+    TreeNode* leastCommonAncestor(TreeNode*&root,int& startValue,int& destValue){
         if(!root)return NULL;
+        if(root->val == startValue || root->val == destValue) return root;
 
-        if(root->val == startValue)return root;
+        TreeNode* leftAns = leastCommonAncestor(root->left,startValue,destValue);
+        TreeNode* rightAns = leastCommonAncestor(root->right,startValue,destValue);
 
-        TreeNode* leftSearch = findStartNode(root->left,startValue);
-        TreeNode* rightSearch = findStartNode(root->right,startValue);
-
-        if(leftSearch)return leftSearch;
-        if(rightSearch)return rightSearch;
-
-        return NULL;
+       if(leftAns and rightAns) return root;
+       else if(leftAns) return leftAns;
+       else return rightAns;
     }
-    void populateMap(unordered_map<TreeNode*, pair<TreeNode*, string>>& parentMap, TreeNode* root, TreeNode* parent, string dir) {
-        if (!root) return;
+    void findPath1(TreeNode*&lca,int& startValue,string&result,string& current){
+        if(!lca || !result.empty())return;
 
-        if (parent != NULL) {
-            parentMap[root] = {parent, dir};
-        }
-
-        populateMap(parentMap, root->left, root, "L");
-        populateMap(parentMap, root->right, root, "R");
+        if(lca->val == startValue){
+            result = current;
+            return;
+        } 
+        current += 'U';
+        findPath1(lca->left,startValue,result,current);
+        current = current.substr(0,current.size()-1);
+        current+= 'U';
+        findPath1(lca->right,startValue,result,current);
+        current = current.substr(0,current.size()-1);
     }
+    void findPath2(TreeNode*&lca,int& destValue, string&result,string& current){
+           if(!lca || !result.empty())return;
 
+        if(lca->val == destValue){
+            result = current;
+            return;
+        } 
+        current.push_back('L');
+        findPath2(lca->left,destValue,result,current);
+        current.pop_back();
+        current.push_back('R');
+        findPath2(lca->right,destValue,result,current);
+        current.pop_back();
+    }
     string getDirections(TreeNode* root, int startValue, int destValue) {
         /*
         
-            get directions
+            Approach 2:
 
-            we will traverse tree like graph
+            FIND LCA between startValue and destValue
 
-            we will have a parent array which will track parent of each node
+            path b/w LCA to startValue will only have UUU...
             
-
-            then start a bfs traversal from the startNode to the destValue
-
-            when destValue is found the path will be constructed
-
-            pathTracker map 
+            so check the path b/w LCA to destValue and backtrack while finding
 
 
-            intialize parentMap - to store parent nodes
-
-            startNode using findStartNOde to recursively search the startValue
-
-            populate parentMap 
-
-
-            For BFS
-            startNode into queue
-
-            visitedNodes to keep track 
-
-            pathTracker to record path
-
-
-            while queue is not empty
-
-            dque 
+            leastCommonAncestor(startValue, destValue)
             
-            if(cur == destVal )path found backtrackPath called and path returned
+            pathToStart and pathToDest
 
-            if(parentMap contains parent of current node )
+            findPath to determine above two
 
-            if dest is never reached return empty   
+            directions = pathToStart
+
+            directions += pathToDest
+
 
         
         */
 
+        // lets' find LCA
+        TreeNode* lcaNode = leastCommonAncestor(root,startValue,destValue);
 
 
-        
+        // findPath b/w startNode and lcaNode
+        string destPath ="";
+        string current = "";
+        findPath1(lcaNode,startValue,destPath,current);
 
-        TreeNode* startNode = findStartNode(root,startValue);
+        string endPath = "";
+        current = "";
+        findPath2(lcaNode,destValue,endPath,current);
 
-        unordered_map<TreeNode*,pair<TreeNode*,string>>parentMap; 
-        
-        populateMap(parentMap,root,NULL,"");
+        destPath += endPath;
 
-        
-        queue<TreeNode*>q;
-
-        
-        q.push(startNode);
-
-        
-        set<TreeNode*>visitedSet;
-
-        unordered_map<TreeNode*,pair<TreeNode*,string>>pathTracker; 
-
-        
-        while(!q.empty()){
-
-            TreeNode* frontNode = q.front();
-            visitedSet.insert(frontNode);
-            
-            auto Par = parentMap[frontNode];
-            TreeNode*parent = Par.first;
-            string dir = Par.second;
-
-            q.pop();
-
-            if(frontNode->val == destValue){
-                return findPath(frontNode,startNode,pathTracker);
-            }
-
-            if(parent and !visitedSet.count(parent)){
-                pathTracker[parent] = {frontNode,"U"};
-                q.push(parent);
-            }
-
-            if(frontNode->left and !visitedSet.count(frontNode->left)){
-                  pathTracker[frontNode->left] = {frontNode,"L"};
-                  q.push(frontNode->left);
-            }
-
-            if(frontNode->right and !visitedSet.count(frontNode->right)){
-                  pathTracker[frontNode->right] = {frontNode,"R"};
-                  q.push(frontNode->right);
-            }
-
-
-        }
-
-        return "";
-
-        
+        return destPath;
     }
-    string findPath(TreeNode*destNode, TreeNode*startNode,unordered_map<TreeNode*,pair<TreeNode*,string>>&pathTracker){
-            if(!startNode || !destNode) return "";
-
-            string ans = "";
-
-            TreeNode* temp = destNode;
-            while(temp != startNode and temp != NULL){
-                ans += pathTracker[temp].second;
-                temp = pathTracker[temp].first;
-            }
-            reverse(ans.begin(),ans.end());
-            return ans;
-        }
 };
