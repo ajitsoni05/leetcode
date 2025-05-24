@@ -2,7 +2,6 @@ class MKAverage {
 public:
     queue<int>q;
     map<int,int>mp;
-    map<int,int,greater<int>>rmp;
     long long tot;
     int K;
     int M;
@@ -16,7 +15,6 @@ public:
    void addElement(int num) {
     q.push(num);
     mp[num]++;
-    rmp[num]++;
     tot += num;
 
     if (q.size() > M) {
@@ -24,8 +22,7 @@ public:
         mp[r]--;
         if (mp[r] == 0) mp.erase(r);
 
-        rmp[r]--;
-        if (rmp[r] == 0) rmp.erase(r);
+     
 
         tot -= r;
     }
@@ -47,10 +44,10 @@ public:
 
         }
         iter = K;
-        for(auto it:rmp){
-            int temp = it.second;
+        for(auto it=mp.rbegin();it!=mp.rend();it++){
+            int temp = it->second;
             while(iter and temp){
-                total -= it.first;
+                total -= it->first;
                 iter--;
                 temp--;
             }
