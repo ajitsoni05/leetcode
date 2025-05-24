@@ -44,7 +44,7 @@ public:
 
         }
         iter = K;
-        for(auto it=mp.rbegin();it!=mp.rend();it++){
+        for(auto it=mp.rbegin();it!=mp.rend();++it){
             int temp = it->second;
             while(iter and temp){
                 total -= it->first;
