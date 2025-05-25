@@ -1,17 +1,22 @@
 class RecentCounter {
 public:
-    multiset<int> mst;
-
-    RecentCounter() {}
-
+    queue<int>q;
+    RecentCounter() {
+        
+    }
+    
     int ping(int t) {
-        mst.insert(t);
-        int lower = t - 3000;
-
-        // Count elements in [lower, t]
-        auto l = mst.lower_bound(lower);
-        auto r = mst.upper_bound(t);  // strictly greater than t
-
-        return distance(l, r);
+        while(!q.empty() and q.front() < t-3000){
+            q.pop();
+        }
+        q.push(t);
+        return q.size();
+        
     }
 };
+
+/**
+ * Your RecentCounter object will be instantiated and called as such:
+ * RecentCounter* obj = new RecentCounter();
+ * int param_1 = obj->ping(t);
+ */
