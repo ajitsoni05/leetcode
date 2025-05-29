@@ -1,6 +1,6 @@
 class MyHashSet {
 public:
-    int len = 100;
+    int len = 1000;
     vector<vector<int>>hash;
     MyHashSet() {
         hash.resize(len);
