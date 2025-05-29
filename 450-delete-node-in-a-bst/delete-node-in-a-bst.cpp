@@ -11,54 +11,53 @@
  */
 class Solution {
 public:
-    TreeNode* deleteNode(TreeNode* root, int key) {
-        if(root){
-            /*
-                check three conditions
+   TreeNode* deleteNode(TreeNode* root, int key) {
+    TreeNode* parent = nullptr;
+    TreeNode* curr = root;
 
-                root->val and key
+    // Step 1: Find the node to delete and its parent
+    while (curr && curr->val != key) {
+        parent = curr;
+        if (key < curr->val)
+            curr = curr->left;
+        else
+            curr = curr->right;
+    }
 
-            */
+    if (!curr) return root; // Key not found
 
-            if(root->val > key){
-                // recursively delete key from left subtree and assign left subtree
-                root->left = deleteNode(root->left,key);
-
-            }else if(root->val < key){
-                // recursively delete key from right subtree and assign right subtree
-                root->right = deleteNode(root->right,key);
-
-            }else if(root->val == key) {
-                /*
-                    check for three conditions
-
-                    - if root is leaft
-                    - if root has either left or right but not both
-                    - if root has both
-                */
-
-                if(!root->left and !root->right){
-                    // simply return NULL since consider it as deleted
-                    return nullptr;
-                }else if(!root->left || !root->right){
-                    // simply copy the non-empty node to itself
-                    root = root->left ? root->left : root->right;
-                }else if(root->left and root->right){
-                    // check the successor of the root
-                    TreeNode* successor = root->right;
-
-                    while(successor->left)successor = successor->left;
-
-                    // now copy this value onto root and then recursively delete successor
-                    root->val = successor->val;
-                    
-                    root->right = deleteNode(root->right,successor->val);
-                }
-
-            }
-
+    // Step 2: If the node has two children
+    if (curr->left && curr->right) {
+        // Find in-order successor (leftmost node in right subtree)
+        TreeNode* succParent = curr;
+        TreeNode* succ = curr->right;
+        while (succ->left) {
+            succParent = succ;
+            succ = succ->left;
         }
 
-        return root;
+        // Replace curr's value with successor's value
+        curr->val = succ->val;
+
+        // Now delete the successor node
+        curr = succ;
+        parent = succParent;
     }
+
+    // Step 3: Now curr has at most one child
+    TreeNode* child = curr->left ? curr->left : curr->right;
+
+    if (!parent) {
+        // Deleting root node
+        return child;
+    }
+
+    if (parent->left == curr)
+        parent->left = child;
+    else
+        parent->right = child;
+
+    return root;
+}
+
 };
