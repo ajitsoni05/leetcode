@@ -1,21 +1,38 @@
 class MyHashSet {
 public:
-    int len = 1000001;
-    vector<int>hash;
+    int len = 100;
+    vector<vector<int>>hash;
     MyHashSet() {
-        hash.resize(len,-1);
+        hash.resize(100);
     }
     
     void add(int key) {
-        hash[key] = 1;
+
+        int bucket = key%100;
+
+        // check if bucket contains it
+        for(int i = 0; i < hash[bucket].size();i++){
+            if(hash[bucket][i]==key)return;
+        }
+        hash[bucket].push_back(key);
+        
     }
     
     void remove(int key) {
-          hash[key] = -1;
+        int bucket = key%100;
+        // check if bucket contains it
+        for(int i = 0; i < hash[bucket].size();i++){
+            if(hash[bucket][i]==key){hash[bucket][i] = -1;return;}
+        }
     }
     
     bool contains(int key) {
-        return  hash[key] == 1;
+        int bucket = key%100;
+        // check if bucket contains it
+        for(int i = 0; i < hash[bucket].size();i++){
+            if(hash[bucket][i]==key){return true;}
+        }
+        return false;
     }
 };
 
