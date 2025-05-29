@@ -65,12 +65,12 @@ public:
             val, keyvalue); // if it is not inserted during iteration
     }
     vector<TreeNodePair*> hashMap;
-    int len = 100;
-    MyHashMap() { hashMap.resize(100); }
+    int len = 769;
+    MyHashMap() { hashMap.resize(len); }
 
     void put(int key, int value) {
 
-        int bucket = key % 100;
+        int bucket = key % len;
 
         TreeNodePair* root = hashMap[bucket];
 
@@ -85,7 +85,7 @@ public:
     }
 
     int get(int key) {
-        int bucket = key % 100;
+        int bucket = key % len;
 
         TreeNodePair* root = hashMap[bucket];
 
@@ -98,7 +98,7 @@ public:
     }
 
     void remove(int key) {
-        int bucket = key % 100;
+        int bucket = key % len;
 
         TreeNodePair* root = hashMap[bucket];
 
