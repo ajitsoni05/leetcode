@@ -1,14 +1,14 @@
 class MyHashSet {
 public:
-    int len = 100;
+    int len = 10;
     vector<vector<int>>hash;
     MyHashSet() {
-        hash.resize(100);
+        hash.resize(len);
     }
     
     void add(int key) {
 
-        int bucket = key%100;
+        int bucket = key%len;
 
         // check if bucket contains it
         for(int i = 0; i < hash[bucket].size();i++){
@@ -19,7 +19,7 @@ public:
     }
     
     void remove(int key) {
-        int bucket = key%100;
+        int bucket = key%len;
         // check if bucket contains it
         for(int i = 0; i < hash[bucket].size();i++){
             if(hash[bucket][i]==key){hash[bucket][i] = -1;return;}
@@ -27,7 +27,7 @@ public:
     }
     
     bool contains(int key) {
-        int bucket = key%100;
+        int bucket = key%len;
         // check if bucket contains it
         for(int i = 0; i < hash[bucket].size();i++){
             if(hash[bucket][i]==key){return true;}
