@@ -19,8 +19,6 @@ public:
         for(int i = 0; i <s.size();i++){
             if(vowMap.count(s[i])){
                 vow += s[i];
-            }else{
-          
             }
         }
 
