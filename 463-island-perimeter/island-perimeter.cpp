@@ -1,49 +1,37 @@
 class Solution {
 public:
-    bool isValid(vector<vector<int>>&grid,int i,int j){
+    int count(vector<vector<int>>& grid,int i,int j){
         int m = grid.size();
         int n = grid[0].size();
 
-        if(i>=0 and i < m and j>=0 and j < n and grid[i][j])return true;
-        return false;
-    }
-    void dfs(vector<vector<int>>&grid, vector<vector<bool>>&vis,int i,int j,int&per){
-        vis[i][j] = true;
+        vector<int> dx = {-1,0,1,0};
+        vector<int> dy = {0,1,0,-1};
 
-        int nbCount = 0;
+        int total = 0;
 
-        for(int h = -1; h<=1;h++){
-            for(int k = -1; k <=1;k++){
-                if(abs(h)!=abs(k) and isValid(grid,i+h,j+k)){
-                    nbCount++;
-                    if(!vis[i+h][j+k])dfs(grid,vis,i+h,j+k,per);
-                }
-            }
+        for(int l = 0; l < 4;l++){
+            int x = i + dx[l];
+            int y = j + dy[l];
+
+            if(x>=0 and x < m and y>=0 and y < n and grid[x][y]==1)total++;
+
         }
-        per+=4-nbCount;
+        return total;
     }
     int islandPerimeter(vector<vector<int>>& grid) {
-        
-        // check number of neighbours cuz that's important to tell the perimeter
-
-        // we will be doing dfs for this
-        // adjacency list
+        // let's do simple counting
 
         int m = grid.size();
         int n = grid[0].size();
-        vector<vector<bool>>visited(m,vector<bool>(n,false));
 
-        int per = 0;
-        int perimeter = 0;
-        for(int i = 0;i< grid.size();i++){
-            for(int j = 0; j < grid[i].size();j++){
-                if(!visited[i][j] and grid[i][j]){
-                    // call dfs
-                    dfs(grid,visited,i,j,per);
+        int totalCount = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n;j++){
+                if(grid[i][j]==1){
+                    totalCount += 4 - count(grid,i,j);
                 }
             }
         }
-        return per;
-
+        return totalCount;
     }
 };
