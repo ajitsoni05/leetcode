@@ -4,9 +4,8 @@ public:
         unordered_map<int,int>mp;
 
         for(int i =0;i <bills.size();i++){
-            cout<<bills[i]<<" ";
+            mp[bills[i]]++;
             if(bills[i]==20){
-                mp[20]++;
                 if(mp.count(10) and mp.count(5)){
                     mp[10]--;
                     mp[5]--;
@@ -19,15 +18,12 @@ public:
                     return false;
                 }
             }else if(bills[i]==10){
-                 mp[10]++;
                  if(mp.count(5)){
                     mp[5]--;
                     if(mp[5]==0)mp.erase(5);
                 }else{
                     return false;
                 }
-            }else{
-                mp[5]++;
             }
 
 
