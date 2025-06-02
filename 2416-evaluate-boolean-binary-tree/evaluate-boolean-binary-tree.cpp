@@ -30,7 +30,7 @@ public:
             return root->val;
         }
 
-        return 0;
+        return 1;
 
         
     }
