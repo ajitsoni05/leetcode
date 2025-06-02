@@ -35,7 +35,7 @@ public:
         // Go from l upward, find LCA
         curr = l;
         dist = 0;
-        while (distFromP.find(curr) == distFromP.end()) {
+        while (distFromP.count(curr) == 0) {
             curr = parent[curr];
             dist++;
         }
