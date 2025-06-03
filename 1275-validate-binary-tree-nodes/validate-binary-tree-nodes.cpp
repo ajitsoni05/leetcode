@@ -38,7 +38,7 @@ public:
         if(root == -1)return false;
         
         // once root is found let's start with dfs
-        set<int>seen;
+        unordered_set<int>seen;
         bool hasCycle = false;
         dfs(n,l,r,seen,root,hasCycle);
 
@@ -47,7 +47,7 @@ public:
         
     }
 
-    void dfs(int n,vector<int>&l,vector<int>&r,set<int>&seen,int start,bool&hasCycle){
+    void dfs(int n,vector<int>&l,vector<int>&r,unordered_set<int>&seen,int start,bool&hasCycle){
         seen.insert(start);
 
         // check if left child exists
