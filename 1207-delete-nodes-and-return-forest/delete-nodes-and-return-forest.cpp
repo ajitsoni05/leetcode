@@ -1,31 +1,37 @@
 class Solution {
 public:
-    unordered_set<int> to_delete_set;
-    vector<TreeNode*> forest;
+    void leftOvers(TreeNode* root, unordered_set<int>& to_delete, vector<TreeNode*>& left, TreeNode* parent, bool isLeftChild) {
+        if (!root) return;
 
-    TreeNode* helper(TreeNode* root) {
-        if (!root) return nullptr;
+        // Recurse first on children
+        leftOvers(root->left, to_delete, left, root, true);
+        leftOvers(root->right, to_delete, left, root, false);
 
-        root->left = helper(root->left);
-        root->right = helper(root->right);
+        // If current node needs to be deleted
+        if (to_delete.count(root->val)) {
+            if (root->left) left.push_back(root->left);
+            if (root->right) left.push_back(root->right);
 
-        if (to_delete_set.count(root->val)) {
-            if (root->left) forest.push_back(root->left);
-            if (root->right) forest.push_back(root->right);
-            return nullptr; // delete current node
+            // Disconnect from parent
+            if (parent) {
+                if (isLeftChild) parent->left = nullptr;
+                else parent->right = nullptr;
+            }
         }
-
-        return root;
     }
 
     vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
-        to_delete_set = unordered_set<int>(to_delete.begin(), to_delete.end());
+        vector<TreeNode*> left;
+        unordered_set<int> to_delete_set(to_delete.begin(), to_delete.end());
 
+        // Start recursion
+        leftOvers(root, to_delete_set, left, nullptr, false);
+
+        // If root itself is not deleted, add to result
         if (!to_delete_set.count(root->val)) {
-            forest.push_back(root);
+            left.push_back(root);
         }
 
-        helper(root);
-        return forest;
+        return left;
     }
 };
