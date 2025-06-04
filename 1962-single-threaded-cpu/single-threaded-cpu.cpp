@@ -11,37 +11,35 @@ public:
     }
 
     vector<int> getOrder(vector<vector<int>>& tasks) {
-        int n = tasks.size();
-        for (int i = 0; i < n; i++) {
-            tasks[i].push_back(i); // append index
+        long long timer = INT_MAX;
+        for (int i = 0; i < tasks.size(); i++) {
+            tasks[i].push_back(i); // index
+            timer = min((int)timer, tasks[i][0]);
         }
 
         sort(tasks.begin(), tasks.end(), comp);
 
         priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>>
-            pq; // {processingTime, index}
+            pq; // {processingTime, index, enqueueTime}
 
-        long long timer = 0;
-        int i = 0;
-        vector<int> result;
+        int iter = 0;
+        vector<int> order;
 
-        while (i < n || !pq.empty()) {
-            if (pq.empty() && timer < tasks[i][0]) {
-                timer = tasks[i][0]; // jump forward in time
-            }
-
-            while (i < n && tasks[i][0] <= timer) {
-                pq.push({tasks[i][1], tasks[i][2]});
-                i++;
+        while (iter < tasks.size() || !pq.empty()) {
+            while (iter < tasks.size() && tasks[iter][0] <= timer) {
+                pq.push({tasks[iter][1], tasks[iter][2], tasks[iter][0]});
+                iter++;
             }
 
             if (!pq.empty()) {
-                auto curr = pq.top(); pq.pop();
-                timer += curr[0];
-                result.push_back(curr[1]);
+                vector<int> nextJob = pq.top();
+                pq.pop();
+                order.push_back(nextJob[1]);
+                timer += nextJob[0];
+            } else if (iter < tasks.size()) {
+                timer = tasks[iter][0];
             }
         }
-
-        return result;
+        return order;
     }
 };
