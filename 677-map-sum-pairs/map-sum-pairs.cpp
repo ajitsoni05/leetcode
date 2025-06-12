@@ -22,8 +22,6 @@ public:
             sub = mp[key];
         }
         mp[key] = val;
-        
-    
         for(int i = 0; i < key.size(); i++){
             char c = key[i] - 'a';
             if(!temp->children[c]){
