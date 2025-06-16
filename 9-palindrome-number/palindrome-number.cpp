@@ -1,10 +1,21 @@
 class Solution {
 public:
+    void getDif(int x,vector<int>&nums){
+        while(x){
+            nums.push_back(x%10);
+            x/=10;
+        }
+        
+    }
     bool isPalindrome(int x) {
-        string s = to_string(x);
-        string temp = s;
-        reverse(temp.begin(),temp.end());
+        if(x < 0)return false;
 
-        return s == temp;
+        vector<int>nums;
+        getDif(x,nums);
+
+        vector<int>rev;
+        rev.insert(rev.begin(),nums.rbegin(),nums.rend());
+
+        return nums == rev;
     }
 };
