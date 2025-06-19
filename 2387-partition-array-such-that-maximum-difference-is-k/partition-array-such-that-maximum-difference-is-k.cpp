@@ -1,16 +1,20 @@
 class Solution {
 public:
     int partitionArray(vector<int>& nums, int k) {
-        sort(nums.begin(),nums.end());
-
-        int num = nums[0];
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
         int count = 0;
-        for(int i = 1; i < nums.size(); i++){
-            if(abs(nums[i]-num) > k){count++;num = nums[i];}
-            else{
-                num = min(num,nums[i]);
-            }
+        int i = 0;
+
+        while (i < n) {
+            int minVal = nums[i];
+            count++;
+
+            auto it = lower_bound(nums.begin() + i, nums.end(), minVal + k + 1);
+
+            i = it - nums.begin();
         }
-        return count+1;
+
+        return count;
     }
 };
