@@ -1,60 +1,47 @@
 class Solution {
 public:
+    void dfs(const vector<vector<int>>& adj, vector<bool>& visited,
+             int& detonatedBombs, int node) {
+        visited[node] = true;
+        detonatedBombs++;
 
-    void dfs(unordered_map<int,vector<int>>&adj,vector<bool>&vis,int& count,int node){
-        vis[node]=true;
-        count+=1;
-
-
-        for(auto neighbour: adj[node]){
-            if(!vis[neighbour]){
-                dfs(adj,vis,count,neighbour);
+        for (int neighbor : adj[node]) {
+            if (!visited[neighbor]) {
+                dfs(adj, visited, detonatedBombs, neighbor);
             }
         }
     }
-   bool liesInside(int x, int y, int r, int px, int py) {
-    long long dx = px - x;
-    long long dy = py - y;
-    long long distSquared = dx * dx + dy * dy;
-    long long radiusSquared = 1LL * r * r;
 
-    return distSquared <= radiusSquared;
-}
+    bool liesInside(int x, int y, int r, int px, int py) {
+        long long dx = px - x;
+        long long dy = py - y;
+        return dx * dx + dy * dy <= 1LL * r * r;
+    }
 
     int maximumDetonation(vector<vector<int>>& bombs) {
-       // find max nodes in a single component 
+        int n = bombs.size();
+        vector<vector<int>> adj(n);
 
-       // lets represent each circle with a node 0 through n-1
-       int n = bombs.size();
-
-       // create adjaceny list
-        unordered_map<int,vector<int>>adj(n);
-    
-       for(int i=0;i<n;i++){
-        vector<int>center = bombs[i];
-        for(int j=0;j<bombs.size();j++){
-            if(i!=j){
-                if(liesInside(center[0],center[1],center[2],bombs[j][0],bombs[j][1])){
+        // Build the adjacency list
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != j && liesInside(bombs[i][0], bombs[i][1], bombs[i][2],
+                                         bombs[j][0], bombs[j][1])) {
                     adj[i].push_back(j);
                 }
-
             }
         }
-       }
 
-       // now do dfs to find max components traversed
-       int maxCount = 0;
+        int maxDetonated = 0;
 
-       for(int i=0;i<n;i++){
-        vector<bool>vis(n,false);
-        int count = 0;
-        dfs(adj,vis,count,i);
+        // Try starting DFS from each bomb
+        for (int i = 0; i < n; ++i) {
+            vector<bool> visited(n, false);
+            int detonatedBombs = 0;
+            dfs(adj, visited, detonatedBombs, i);
+            maxDetonated = max(maxDetonated, detonatedBombs);
+        }
 
-        maxCount = max(maxCount,count);
-       }
-
-      return maxCount;
-
-
+        return maxDetonated;
     }
 };
