@@ -9,7 +9,7 @@ public:
 
         // flights
         for (auto f : flights) {
-            adj[f[0]].push_back({f[1], f[2]});
+            adj[f[0]].emplace_back(f[1], f[2]);
         }
 
         // queue for bfs
