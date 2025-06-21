@@ -22,7 +22,7 @@ public:
         vector<int>ans;
         int n = nums.size();
 
-       for(int i = 0; i < n-k+1; i++){
+       for(int i = 0; i <= n-k; i++){
 
         int tempX = x;
         // ans[i] = xsum of i -> i + k-1
@@ -60,16 +60,15 @@ public:
             for(auto setEle:setArray.second){
                 
                 sum+=(setEle*occ);
+               
                 tempX--;
+
                 if(tempX==0)break;
             }
             if(tempX==0)break;
         }
         ans.push_back(sum);
-
-
-        
-        
+          
        }
        return ans;
     }
