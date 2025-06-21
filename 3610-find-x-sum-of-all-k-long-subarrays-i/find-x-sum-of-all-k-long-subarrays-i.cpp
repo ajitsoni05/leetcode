@@ -58,10 +58,8 @@ public:
         for(auto setArray:setMap){
             int occ = setArray.first;
             for(auto setEle:setArray.second){
-               for(int i = 0; i <occ;i++){
-                    sum+=setEle;
-                    if(tempX==0)break;
-               }
+                
+                sum+=(setEle*occ);
                 tempX--;
                 if(tempX==0)break;
             }
