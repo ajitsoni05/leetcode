@@ -3,6 +3,7 @@ public:
     list<int>l;
 
     MRUQueue(int n) {
+        // O(1)
         for(int i = 0; i < n; i++){
             l.push_back(i+1);
         }
@@ -10,6 +11,7 @@ public:
     }
     
     int fetch(int k) {
+        // O(k)
         auto it = l.begin();
         advance(it,k-1);
         int val = *it;
