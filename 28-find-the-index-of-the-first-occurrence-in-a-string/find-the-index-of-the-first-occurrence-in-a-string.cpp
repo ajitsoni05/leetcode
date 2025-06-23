@@ -23,19 +23,19 @@ public:
         }
 
         int m = haystack.size();
-        int full_iter = 0;
-        int sub_iter = 0;
-        while(full_iter<m){
-            if(haystack[full_iter]==needle[sub_iter]){
+        i = 0;
+        j = 0;
+        while(i< m){
+            if(haystack[i]==needle[j]){
 
-                if(sub_iter == n-1)return full_iter-n+1;
-                full_iter++;
-                sub_iter++;
+                if(j == n-1)return i-n+1;
+                i++;
+                j++;
             }else{
-                if(sub_iter > 0){
-                    sub_iter = kmp[sub_iter-1];
+                if(j > 0){
+                    j = kmp[j-1];
                 }else{
-                    full_iter++;
+                    i++;
                 }
             }
         }
