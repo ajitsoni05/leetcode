@@ -9,45 +9,17 @@
  */
 class Solution {
 public:
-    TreeNode* prev;
-    TreeNode* inorderSuccessorNode;
     TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
-        // check if root is NULL
-        if (!root)
-            return NULL;
+        TreeNode* successor = nullptr;
 
-        // Case 1: check if p has right child
-        TreeNode* temp = p;
-        if (p and p->right) {
-            temp = p->right;
-            while (temp->left) {
-                temp = temp->left;
+        while(root){
+            if(p->val >= root->val){
+                root = root->right;
+            }else{
+                successor = root;
+                root = root->left;
             }
-
-            if (temp)return temp;
         }
-
-        inorderSuccessorNode = NULL;
-        // Case 2: if p has no right child
-        inorder(root,p);
-
-        return inorderSuccessorNode;
-
-
-    }
-
-    void inorder(TreeNode* node,TreeNode* p){
-        if(!node)return;
-
-
-        inorder(node->left,p);
-
-        if(prev == p and inorderSuccessorNode == nullptr){
-            inorderSuccessorNode = node;
-            return ;
-        }
-        
-        prev = node;
-        inorder(node->right,p);
+        return successor;
     }
 };
