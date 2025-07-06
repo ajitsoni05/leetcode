@@ -8,15 +8,19 @@ public:
 
         vector<int>dp(n+1,0);
 
-        dp[0] = 1;
-        dp[1] = 1;
+        int twoBack = 1;
+        int oneBack = 1;
 
         for(int i = 1; i < n; i++){
-            if(s[i] != '0') dp[i+1] += dp[i];
-            if(stoi(s.substr(i-1,2)) <= 26 and stoi(s.substr(i-1,2)) >= 10)dp[i+1] += dp[i-1];
+            int current = 0;
+            if(s[i] != '0')  current += oneBack;
+            if(stoi(s.substr(i-1,2)) <= 26 and stoi(s.substr(i-1,2)) >= 10)current += twoBack;
+
+            twoBack = oneBack;
+            oneBack = current;
         }
 
-        return dp[n];
+        return oneBack;
 
     }
 };
