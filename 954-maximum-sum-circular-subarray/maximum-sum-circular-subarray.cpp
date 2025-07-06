@@ -43,7 +43,7 @@ public:
             rightMax[i] = rightMaxSum;
         }
 
-        int maxSpecialSum = 0;
+        int maxSpecialSum = INT_MIN;
 
         for (int i = 0; i < n - 1; i++) {
             maxSpecialSum = max(maxSpecialSum, prefixSum[i] + rightMax[i + 1]);
@@ -52,19 +52,6 @@ public:
         return maxSpecialSum;
     }
     int maxSubarraySumCircular(vector<int>& nums) {
-        int normalMax = maxNormalSum(nums);
-
-
-        bool allNegative = true;
-        for (int num : nums) {
-            if (num > 0) {
-                allNegative = false;
-                break;
-            }
-        }
-        if (allNegative)
-            return normalMax;
-
-        return max(normalMax, specialSum(nums));
+        return max(maxNormalSum(nums), specialSum(nums));
     }
 };
