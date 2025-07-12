@@ -11,11 +11,12 @@ public:
 
 
         while(r < n){
-            if(lastIndex.count(s[r]) and lastIndex[s[r]] >= l)
+            char ch = s[r];
+            if(lastIndex.count(ch) and lastIndex[ch] >= l)
             {
-                l = lastIndex[s[r]] + 1;
+                l = lastIndex[ch] + 1;
             }
-            lastIndex[s[r]] = r;
+            lastIndex[ch] = r;
             maxLen = max(maxLen, r - l + 1);
             r++;
         }
