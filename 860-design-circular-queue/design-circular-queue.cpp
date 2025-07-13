@@ -1,42 +1,45 @@
 class MyCircularQueue {
 public:
-    list<int>q;
-    int size;
-    MyCircularQueue(int k): size(k) {
-        
+    vector<int>queue;
+    int count;
+    int cap;
+    int headIndex;
+    MyCircularQueue(int k):count(0),cap(k) {
+        queue.resize(k);
+        headIndex = 0;
     }
     
     bool enQueue(int value) {
-        if(q.size() < size)q.push_back(value);
-        else{
-            return false;
-
-        }
+        if(count == cap)return false;
+        int tailIndex = (headIndex + count)%cap;
+        queue[tailIndex] = value;
+        count++;
         return true;
     }
     
     bool deQueue() {
-        if(q.empty())return false;
-        q.pop_front();
+        if(count == 0)return false;
+        headIndex = (headIndex+1)%cap;
+        count--;
         return true;
     }
     
     int Front() {
-        if(q.empty())return -1;
-        return q.front();
+        if(count == 0)return -1;
+        return queue[headIndex];
     }
     
     int Rear() {
-        if(q.empty())return -1;
-        return q.back();
+        if(count == 0)return -1;
+        return queue[(headIndex + count - 1)%cap];
     }
     
     bool isEmpty() {
-        return q.size() == 0;
+        return count == 0;
     }
     
     bool isFull() {
-        return q.size() == size;
+        return count == cap;
     }
 };
 
