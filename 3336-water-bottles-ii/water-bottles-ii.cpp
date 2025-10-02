@@ -21,12 +21,22 @@ public:
         int total = currEmpty;
 
         while( numExchange <= currEmpty ){
+            // deduct numExchange from currentEmpty
             currEmpty -= numExchange;
-            numBottles++;
             
+            // increase numBottles by 1
+            numBottles++;
+
+            // total drank increments by numBottles
             total += numBottles;
+
+            // numExchange increments by 1 upon conversion
             numExchange++;
+
+            // currEmpty increase by numBottles since they are empty now
             currEmpty+= numBottles;
+
+            // set numBottles to 0
             numBottles = 0;
 
 
