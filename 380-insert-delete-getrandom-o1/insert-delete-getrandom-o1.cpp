@@ -1,44 +1,53 @@
 class RandomizedSet {
 public:
-    unordered_map<int,int> keymp; // val , index in the vector
-    vector<int> keys;
+
+        unordered_map<int,int> hashMap;
+        vector<int> ele;
+
     RandomizedSet() {
+
         
     }
     
     bool insert(int val) {
-        if(keymp.count(val)>0){
+
+        if(hashMap.count(val)) {
             return false;
-        }else{
-            int idx = keys.size();
-            keymp[val]=idx;
-            keys.push_back(val);
+        } else {
+            hashMap[val] = 0;
+            ele.push_back(val);
+            hashMap[val]=ele.size()-1; // {1} -> 4
             return true;
         }
         
     }
     
     bool remove(int val) {
-         if(keymp.count(val)>0){
-            int idx = keymp[val];
-            swap(keys.back(),keys[idx]);
-            keys.pop_back();
-            keymp[keys[idx]]=idx;
-            keymp.erase(val);
 
-            return true;
+        if(hashMap.count(val) and ele.size() >= 1) {
+
+            int idx = hashMap[val];
+            int lastIdx = ele.size()-1;
+            int element = ele[lastIdx];
             
-        }else{
-            return false;
-           
+            // swap current with last
+            swap(ele[idx],ele[lastIdx]);
+            
+            // update in hashMap for lastIdx
+            hashMap[element] = idx;
+            
+            // remove val from hashMap
+            ele.pop_back();
+            hashMap.erase(val);
+            return true;
         }
+
+        return false;
     }
     
     int getRandom() {
-        if(keys.size()>0){
-        int idx = rand()%keys.size();
-        return keys[idx];}
-        return 0;
+        int sz = ele.size();
+        return ele[rand()%sz];
     }
 };
 
