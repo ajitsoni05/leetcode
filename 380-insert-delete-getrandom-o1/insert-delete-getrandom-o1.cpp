@@ -24,7 +24,7 @@ public:
     
     bool remove(int val) {
 
-        if(hashMap.count(val) and ele.size() >= 1) {
+        if(hashMap.count(val)) {
 
             int idx = hashMap[val];
             int lastIdx = ele.size()-1;
