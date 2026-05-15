@@ -1,20 +1,29 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        
-       int l=0,r=1;
-       int c=0;
-       unordered_map<int,int>mp;
-       mp[nums[l]]++;
-       while(r!=nums.size()){
-        if(mp.count(nums[r])>0&&mp[nums[r]]>=2)r++;
-        else{
-            mp[nums[r]]++;
-            swap(nums[l+1],nums[r]);
-            c++;
-            l++,r++;
+
+        int i = 0, j = 0;
+        int n = nums.size();
+
+        while (j < n) {
+
+            int freq = 0;
+            int val = nums[j];
+
+            // count frequency safely
+            while (j < n && nums[j] == val) {
+                freq++;
+                j++;
+            }
+
+            freq = min(freq, 2);
+
+            // write allowed duplicates
+            while (freq--) {
+                nums[i++] = val;
+            }
         }
-       }
-       return c+1;
+
+        return i;
     }
 };
