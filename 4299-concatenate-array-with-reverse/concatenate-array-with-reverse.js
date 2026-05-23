@@ -4,7 +4,5 @@
  */
 var concatWithReverse = function(nums) {
 
-    let ans = Array.from(nums);
-    ans = ans.concat(nums.reverse());
-    return ans;
+    return [...nums,...nums.slice().reverse()];
 };
