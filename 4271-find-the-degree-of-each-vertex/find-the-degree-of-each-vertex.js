@@ -30,8 +30,8 @@ var findDegrees = function(matrix) {
 
     // using for loop is more fast in JS
     for(let r = 0; r < matrix.length; r++){
-        for(let c = 0; c < matrix[r].length; c++){
-            if (r > c || !matrix[r][c]) continue;
+        for(let c = r+1; c < matrix[r].length; c++){
+            if (!matrix[r][c]) continue;
 
             degrees[r]++;
             degrees[c]++;
