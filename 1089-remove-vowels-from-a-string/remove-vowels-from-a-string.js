@@ -13,8 +13,8 @@ var removeVowels = function(s) {
 
     let result = "";
 
-    [...s].forEach((ele)=>{
-        result += vowelMap.get(ele) ? '':ele;
+    [...s].forEach((ele) => {
+        result += vowelMap.get(ele) ? '' : ele;
     })
     return result;
 };
