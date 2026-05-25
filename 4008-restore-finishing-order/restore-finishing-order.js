@@ -4,15 +4,15 @@
  * @return {number[]}
  */
 var recoverOrder = function(order, friends) {
-    let friendsMap = new Map();
+    let friendsSet = new Set();
     friends.forEach((ele)=>{
-        friendsMap.set(ele,1)
+        friendsSet.add(ele);
     })
 
     let friendsOrder = []
 
     order.forEach((ele) => {
-        if(friendsMap.has(ele))friendsOrder.push(ele);
+        if(friendsSet.has(ele))friendsOrder.push(ele);
     })
     return friendsOrder;
 };
