@@ -4,31 +4,19 @@
  */
 var interpret = function(command) {
     
-  
+    let ans = ""
 
-    let stack = []
 
-    let finalAns = ""
-
-    for(let i = 0; i < command.length; i++){
-        let char = command[i];
-
-        if(char === "("){
-            stack.push(char);
-
-        }else if(char === ")" ){
-          
-          if(stack.at(-1) === "(") {
-            finalAns+="o" 
-            stack.pop();
-          }
-            
-        }else{
-            
-            finalAns += char
-            stack.pop();
-        }
+    for(let i = 0; i < command.length; ){
+        if(command[i] === "("){
+            if(command[i+1]===")"){
+                ans+="o"
+                i+=2
+            }else{
+                ans+= "al"
+                i+=4
+            }
+        }else ans += command[i++]
     }
-
-    return finalAns
+    return ans
 };
