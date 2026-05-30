@@ -16,14 +16,17 @@ var interpret = function(command) {
         if(char === "("){
             stack.push(char);
 
-        }else if(char === ")"){
-            if(stack.at(-1) === "(")finalAns+="o"
-            
+        }else if(char === ")" ){
+          
+          if(stack.at(-1) === "(") {
+            finalAns+="o" 
+            stack.pop();
+          }
             
         }else{
             
             finalAns += char
-            stack.push(char)
+            stack.pop();
         }
     }
 
