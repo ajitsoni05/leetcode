@@ -4,14 +4,9 @@ public:
     map<pair<int,int>,bool>memo;
     bool recurse(int i, int j){
         if(memo.count({i,j}))return  memo[{i,j}];
-        if(i >= s.size() and j >= p.size()){
-            memo[{i,j}] = true;
-            return  memo[{i,j}];
-        }else if(j >= p.size()){
-             memo[{i,j}] = false;
-             return  memo[{i,j}];
-        }
-
+        if (j == p.size())
+        return i == s.size();
+        
         bool currentMatch = (i < s.size() and ((s[i] == p[j])or p[j]=='.'));
 
         if(currentMatch){
@@ -29,7 +24,7 @@ public:
             }
         }
 
-         memo[{i,j}] = false;
+      memo[{i,j}] = false;
         return  memo[{i,j}];
     }
     bool isMatch(string s, string p) {
