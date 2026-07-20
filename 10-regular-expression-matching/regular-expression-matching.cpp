@@ -16,13 +16,16 @@ public:
 
         if(currentMatch){
             if(j+1 < p.size() and p[j+1] == '*'){
-                return recurse(i+1,j) || recurse(i,j+2);
+                 memo[{i,j}] =  recurse(i+1,j) || recurse(i,j+2);
+                 return  memo[{i,j}];
             }else{
-                return recurse(i+1,j+1);
+                 memo[{i,j}] =  recurse(i+1,j+1);
+                 return  memo[{i,j}];
             }
         }else{
             if(j+1 < p.size() and p[j+1] == '*'){
-                return recurse(i,j+2);
+                 memo[{i,j}] = recurse(i,j+2);
+                 return  memo[{i,j}];
             }
         }
 
