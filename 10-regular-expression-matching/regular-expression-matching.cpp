@@ -1,11 +1,14 @@
 class Solution {
 public:
     string s,p;
+    map<pair<int,int>,bool>memo;
     bool recurse(int i, int j){
         if(i >= s.size() and j >= p.size()){
-            return true;
+            memo[{i,j}] = true;
+            return  memo[{i,j}];
         }else if(j >= p.size()){
-            return false;
+             memo[{i,j}] = false;
+             return  memo[{i,j}];
         }
 
         bool currentMatch = (i < s.size() and ((s[i] == p[j])or p[j]=='.'));
@@ -22,7 +25,8 @@ public:
             }
         }
 
-        return false;
+         memo[{i,j}] = false;
+        return  memo[{i,j}];
     }
     bool isMatch(string s, string p) {
         /*
