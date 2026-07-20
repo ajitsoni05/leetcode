@@ -3,6 +3,7 @@ public:
     string s,p;
     map<pair<int,int>,bool>memo;
     bool recurse(int i, int j){
+        if(memo.count({i,j}))return  memo[{i,j}];
         if(i >= s.size() and j >= p.size()){
             memo[{i,j}] = true;
             return  memo[{i,j}];
