@@ -19,7 +19,7 @@ public:
         for(int i = 1; i < n; i++){
             result = max(result , current_max + values[i]);
             
-            current_max = max(current_max - 1, values[i] - 1);
+            current_max = max(current_max, values[i]) - 1;
         }
       
       return result;
