@@ -1,20 +1,35 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        int first =0;
+        // same reader and writer
+        
+        /*
+            since it is given non-decreasing order which esentially means
+            next elements are either duplicates or greater than current
+
+            consider reader_ptr and writer_ptr 
+            if writer_ptr->val == reader_ptr->val
+            simply move reader_ptr 
+            else write nums[writer_ptr+1] = nums[reader_ptr]
+        */
+
         int n = nums.size();
+        int writer_ptr = 0;
+        
 
-        int num = INT_MIN;
+        for(int reader_ptr = 0; reader_ptr < n; reader_ptr++) {
 
-        int count =0;
-        for(int i=0;i<n;i++){
-            if(nums[i]==num)continue;
-            else{
-                nums[first++]=nums[i];
-                num = nums[i];
-                count++;
+            if(nums[writer_ptr] == nums[reader_ptr]){
+                // do nothing
+            }else{
+                nums[writer_ptr+1] = nums[reader_ptr];
+                writer_ptr++;
             }
         }
-        return count;
+        cout<<writer_ptr<<endl;
+        return writer_ptr+1;
+
+
+
     }
 };
