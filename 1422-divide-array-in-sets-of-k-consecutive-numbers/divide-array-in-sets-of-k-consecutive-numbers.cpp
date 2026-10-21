@@ -17,6 +17,7 @@ public:
 
         // collect keys for starting batch processing in a vector
         vector<int>keys;
+        keys.reserve(freqMap.size());
 
         for(auto [k,v]:freqMap) {
             keys.push_back(k);
