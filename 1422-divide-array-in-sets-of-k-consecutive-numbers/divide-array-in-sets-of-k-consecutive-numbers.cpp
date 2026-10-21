@@ -1,7 +1,9 @@
 class Solution {
 public:
     bool isPossibleDivide(vector<int>& nums, int k) {
-        
+
+        int n = nums.size();
+        if(n%k !=0 )return false;
         /*
 
             1 2 3 3 4 4 5 6 
@@ -43,7 +45,7 @@ public:
 
         int counter = 0;
 
-        while(freqMap.size()){
+        while(freqMap.size()) {
             int ele = freqMap.begin()->first;
 
             while(counter < k){
