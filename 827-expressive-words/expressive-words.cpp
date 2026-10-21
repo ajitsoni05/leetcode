@@ -44,7 +44,7 @@ public:
             else{
                 bool match = true; // FIX: use flag to control inner loop
                 for(int i = 0; i < keys.size(); i++){
-                    if(wordKeys[i].first == keys[i].first && wordKeys[i].second <= keys[i].second && (wordKeys[i].second == keys[i].second || keys[i].second >= 3)) // FIX: correct stretchy condition
+                   if(wordKeys[i].first == keys[i].first && wordKeys[i].second <= keys[i].second && (wordKeys[i].second == keys[i].second || keys[i].second >= 3))
                     {
                         continue;
                     }
