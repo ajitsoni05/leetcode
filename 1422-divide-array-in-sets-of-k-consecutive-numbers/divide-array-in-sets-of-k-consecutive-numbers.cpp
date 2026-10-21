@@ -19,8 +19,8 @@ public:
         vector<int>keys;
         keys.reserve(freqMap.size());
 
-        for(auto [k,v]:freqMap) {
-            keys.push_back(k);
+        for(auto [key,v]:freqMap) {
+            keys.push_back(key);
         }
 
         // sort the keys
